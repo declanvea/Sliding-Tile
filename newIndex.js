@@ -36,7 +36,7 @@ function handleSolve() {
   area.innerHTML='';
   for (let i = 0; i < a.length; i++) {
     let div = document.createElement('div');
-    div.id = 'tile' + a[i];
+    div.id = a[i];
     div.className = 'tile';
     div.style.left = col[i]*width + 'px';
     div.style.top = row[i]*width + 'px';
@@ -51,13 +51,20 @@ function handleSolve() {
     }
     div.style.backgroundPosition = copyX[a[i]]*width+'px'+" "+ copyY[a[i]]*width+'px';
   }
+  let easyButton = document.createElement('button');
+  easyButton.innerHTML = 'Easy Mode';
+  easyButton.addEventListener('click', handleEasy);
+  area.appendChild(easyButton);
+  let advancedButton = document.createElement('button');
+  advancedButton.innerHTML = 'Advanced Mode';
+  advancedButton.addEventListener('click', handleAdvanced);
+  area.appendChild(advancedButton);
+  let expertButton = document.createElement('button');
+  expertButton.innerHTML = 'Expert Mode';
+  expertButton.addEventListener('click', handleExpert);
+  area.appendChild(expertButton);
 }
 
-// function shuffles board to start the game
-function handleShuffle() {
-  let area = document.getElementById('area');
-  area.innerHTML='';
-  let b = [...a];
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
   while (0 !== currentIndex) {
@@ -69,33 +76,69 @@ function shuffle(array) {
   }
   return array;
 }
-let c = shuffle(b);
-console.log(b);
-console.log(a);
 
-    for (let i = 0; i < c.length; i++) {
-      let div = document.createElement('div');
-      div.id = 'tile' + c[i];
-      div.className = 'tile';
-      div.style.left = col[i]*width + 'px';
-      div.style.top = row[i]*width + 'px';
-      div.addEventListener("click", handleTile);
-      area.appendChild(div);
-      div.innerHTML = c[i];
-      div.style.transition = "left 0.25s, top 0.25s";
-      div.style.backgroundImage = 'url(./images/Arlo.jpg)';
-      if (c[i] == 16) {
-      div.innerHTML = '';
-      div.style.background = 'white';
-      }
-      div.style.backgroundPosition = copyX[c[i]]*width+'px'+" "+ copyY[c[i]]*width+'px';
-
-    }
+// function shuffles board to start the game
+function handleEasy() {
+  var start = 1;
+  var end = 15;
+  var options = [];
+  while(start <= end){
+    options.push(start++);
   }
+  let b = [...options];
+  let counter = 0;
+  while(counter < 20){
+    let c = shuffle(b);
+    for (var i = 0; i < c.length; i++) {
+      simulateMove(c[i]);
+    }
+    counter++;
+    console.log(c);
+  }
+}
+
+function handleAdvanced(){
+  var start = 1;
+  var end = 15;
+  var options = [];
+  while(start <= end){
+    options.push(start++);
+  }
+  let b = [...options];
+  let counter = 0;
+  while(counter < 50){
+    let c = shuffle(b);
+    for (var i = 0; i < c.length; i++) {
+      simulateMove(c[i]);
+    }
+    counter++;
+    console.log(c);
+  }
+}
+
+function handleExpert(){
+  var start = 1;
+  var end = 15;
+  var options = [];
+  while(start <= end){
+    options.push(start++);
+  }
+  let b = [...options];
+  let counter = 0;
+  while(counter < 100){
+    let c = shuffle(b);
+    for (var i = 0; i < c.length; i++) {
+      simulateMove(c[i]);
+    }
+    counter++;
+    console.log(c);
+  }
+}
+
 
 // function evaluates and enables tiles. Logic based on tiles directly next to "blank" tile
 function handleTile(e) {
-  let blank = document.getElementById('tile16');
+  let blank = document.getElementById(16);
   let blankX = (blank.style.left);
   let blankY = (blank.style.top);
   console.log('Clicked Tile!', e.target.id);
@@ -120,6 +163,33 @@ function handleTile(e) {
   else if (parseInt(e.target.style.top) == (parseInt(blankY) + width) && parseInt(e.target.style.left) == (parseInt(blankX))) {
     let y = e.target.style.top;
     e.target.style.top = blank.style.top;
+    blank.style.top = y;
+  }
+}
+
+function simulateMove(id){
+  let blank = document.getElementById(16);
+  let blankX = (blank.style.left);
+  let blankY = (blank.style.top);
+  let tile = document.getElementById(id);
+  if (parseInt(tile.style.left) == (parseInt(blankX) - width) && parseInt(tile.style.top) == (parseInt(blankY))) {
+    let x = tile.style.left;
+    tile.style.left = blank.style.left;
+    blank.style.left = x;
+  }
+  else if (parseInt(tile.style.left) == (parseInt(blankX) + width) && parseInt(tile.style.top) == (parseInt(blankY))) {
+    let x = tile.style.left;
+    tile.style.left = blank.style.left;
+    blank.style.left = x;
+  }
+  else if (parseInt(tile.style.top) == (parseInt(blankY) - width) && parseInt(tile.style.left) == (parseInt(blankX))) {
+    let y = tile.style.top;
+    tile.style.top = blank.style.top;
+    blank.style.top = y;
+  }
+  else if (parseInt(tile.style.top) == (parseInt(blankY) + width) && parseInt(tile.style.left) == (parseInt(blankX))) {
+    let y = tile.style.top;
+    tile.style.top = blank.style.top;
     blank.style.top = y;
   }
 }
