@@ -1,0 +1,25 @@
+#page {
+  display: flex;
+  justify-content: center;
+}
+#area {
+  width: 200px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+}
+.tile {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border: solid 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#tile16 {
+  background-color: black;
+}
