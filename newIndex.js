@@ -30,9 +30,9 @@ let y = [0,0,0,0,0,3,3,3,3,2,2,2,2,1,1,1,1];
 let copyX = [...x];
 let copyY = [...y];
 
+let area = document.getElementById('area');
 // function creates the solved puzzle
 function handleSolve() {
-  let area = document.getElementById('area');
   area.innerHTML='';
   for (let i = 0; i < a.length; i++) {
     let div = document.createElement('div');
@@ -55,6 +55,10 @@ function handleSolve() {
   easyButton.innerHTML = 'Easy Mode';
   easyButton.addEventListener('click', handleEasy);
   area.appendChild(easyButton);
+  let mediumButton = document.createElement('button');
+  mediumButton.innerHTML = 'Medium Mode';
+  mediumButton.addEventListener('click', handleMedium);
+  area.appendChild(mediumButton);
   let advancedButton = document.createElement('button');
   advancedButton.innerHTML = 'Advanced Mode';
   advancedButton.addEventListener('click', handleAdvanced);
@@ -79,6 +83,24 @@ function shuffle(array) {
 
 // function shuffles board to start the game
 function handleEasy() {
+  var start = 1;
+  var end = 15;
+  var options = [];
+  while(start <= end){
+    options.push(start++);
+  }
+  let b = [...options];
+  let counter = 0;
+  while(counter < 10){
+    let c = shuffle(b);
+    for (var i = 0; i < c.length; i++) {
+      simulateMove(c[i]);
+    }
+    counter++;
+    console.log(c);
+  }
+}
+function handleMedium() {
   var start = 1;
   var end = 15;
   var options = [];
